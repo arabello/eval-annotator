@@ -1,6 +1,8 @@
 import { Download, InfoIcon, Trash2, Upload } from "lucide-react";
 import { useState } from "react";
-import { InfoContent } from "./InfoContent";
+import { InfoDialog } from "./InfoContent";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 interface TopBarProps {
   datasetLength: number;
@@ -26,37 +28,37 @@ export function TopBar({
       <div className="flex items-center justify-between">
         {/* Left: Import/Export/Clear */}
         <div className="flex gap-2">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={onClear}
             disabled={!hasData}
-            className="inline-flex items-center gap-2 px-3 py-1.5 border border-red-300 rounded bg-white hover:bg-red-50 text-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
             title="Clear all data"
+            className="border-red-300 text-red-600 hover:bg-red-50"
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 />
             Clear
-          </button>
-          <button
-            onClick={onImportClick}
-            className="inline-flex items-center gap-2 px-3 py-1.5 border border-gray-300 rounded bg-white hover:bg-gray-50"
-          >
-            <Upload className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" size="sm" onClick={onImportClick}>
+            <Upload />
             Upload
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             onClick={onExport}
             disabled={!hasData}
-            className="inline-flex items-center gap-2 px-3 py-1.5 border border-gray-300 rounded bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Download className="w-4 h-4" />
+            <Download />
             Export
-          </button>
+          </Button>
         </div>
 
         {/* Center: Empty space or title */}
         <div className="flex-1 mx-8">
           <div className="text-center">
             {!hasData && (
-              <div className="text-gray-500">
+              <div className="text-muted-foreground">
                 No dataset loaded - Please upload a JSON file to begin
               </div>
             )}
@@ -65,21 +67,15 @@ export function TopBar({
 
         {/* Right: Progress + Info */}
         <div className="flex items-center gap-3">
-          <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-blue-600 transition-all"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-          <span className="text-sm text-gray-600 min-w-[3rem]">
+          <Progress value={progressPercent} className="w-32" />
+          <span className="text-sm text-muted-foreground min-w-12">
             {hasData ? `${annotatedCount}/${datasetLength}` : "0/0"}
           </span>
 
-          <InfoIcon
-            className="w-5 h-5 cursor-pointer"
-            onClick={() => setIsOpen(true)}
-          />
-          {isOpen && <InfoContent onClose={() => setIsOpen(false)} />}
+          <Button variant="ghost" size="icon" onClick={() => setIsOpen(true)}>
+            <InfoIcon className="h-5 w-5" />
+          </Button>
+          {isOpen && <InfoDialog onClose={() => setIsOpen(false)} />}
         </div>
       </div>
     </div>
