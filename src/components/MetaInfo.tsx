@@ -3,15 +3,16 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 interface MetaInfoProps {
   currentEntry: ExperimentEntry | null;
+  className?: string;
 }
 
-export function MetaInfo({ currentEntry }: MetaInfoProps) {
+export function MetaInfo({ currentEntry, className }: MetaInfoProps) {
   return (
-    <Card className="bg-white">
-      <CardHeader className="p-4 pb-0">
-        <CardTitle className="text-sm">Meta Info</CardTitle>
+    <Card className={className}>
+      <CardHeader>
+        <CardTitle>Meta Info</CardTitle>
       </CardHeader>
-      <CardContent className="p-4 space-y-2 text-xs">
+      <CardContent>
         <div>
           <span className="text-muted-foreground">ID: </span>
           <span className="text-foreground">{currentEntry?.id || "N/A"}</span>

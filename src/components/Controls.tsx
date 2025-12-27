@@ -23,11 +23,11 @@ export function Controls({
   disabled,
 }: ControlsProps) {
   return (
-    <Card className="bg-white">
-      <CardHeader className="p-4 pb-0">
-        <CardTitle className="text-sm">Controls</CardTitle>
+    <Card>
+      <CardHeader>
+        <CardTitle>Controls</CardTitle>
       </CardHeader>
-      <CardContent className="p-4">
+      <CardContent>
         <div className="grid grid-cols-2 gap-2">
           <Button
             variant="outline"
