@@ -1,10 +1,13 @@
 import evalHarnessImg from "../assets/eval-harness.png";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Button } from "./ui/button";
 
 type Props = {
   onClose: () => void;
@@ -50,7 +53,19 @@ export function DocsDialog({ onClose }: Props) {
             or not. Because the application state leverages the JSON file, you
             can export the file and share it with others to get their feedback.
           </p>
+          <p>
+            For any feedback or help, please contact me at{" "}
+            matteo.pelle.pellegrino (at) gmail (dot) com.
+          </p>
         </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+          <Button type="submit">
+            <a href="mailto:matteo.pelle.pellegrino@gmail.com">Contact</a>
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
