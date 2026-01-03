@@ -1,8 +1,15 @@
 import { Download, InfoIcon, Trash2, Upload } from "lucide-react";
 import { useState } from "react";
-import { InfoDialog } from "./InfoDialog";
+import { DocsDialog } from "./DocsDialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+} from "@radix-ui/react-navigation-menu";
+import { navigationMenuTriggerStyle } from "./ui/navigation-menu";
 
 interface TopBarProps {
   datasetLength: number;
@@ -54,17 +61,6 @@ export function TopBar({
           </Button>
         </div>
 
-        {/* Center: Empty space or title */}
-        <div className="flex-1 mx-8">
-          <div className="text-center">
-            {!hasData && (
-              <div className="text-muted-foreground">
-                No dataset loaded - Please upload a JSON file to begin
-              </div>
-            )}
-          </div>
-        </div>
-
         {/* Right: Progress + Info */}
         <div className="flex items-center gap-3">
           <Progress value={progressPercent} className="w-32" />
@@ -72,10 +68,24 @@ export function TopBar({
             {hasData ? `${annotatedCount}/${datasetLength}` : "0/0"}
           </span>
 
-          <Button variant="ghost" size="icon" onClick={() => setIsOpen(true)}>
-            <InfoIcon className="h-5 w-5" />
-          </Button>
-          {isOpen && <InfoDialog onClose={() => setIsOpen(false)} />}
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setIsOpen(true)}
+                  >
+                    <InfoIcon className="h-5 w-5" />
+                    Docs
+                  </Button>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+
+          {isOpen && <DocsDialog onClose={() => setIsOpen(false)} />}
         </div>
       </div>
     </div>

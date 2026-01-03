@@ -25,7 +25,9 @@ export function ConversationView({
   return (
     <div ref={conversationRef} className="h-full overflow-auto p-4">
       {!hasData ? (
-        <p className="text-muted-foreground italic">No data loaded</p>
+        <p className="text-muted-foreground italic">
+          No experiment loaded - Please upload a JSON file to begin
+        </p>
       ) : (
         <div className="flex flex-col gap-8">
           {(currentEntry?.baseline || []).slice(0, -1).map((msg, idx) => {
