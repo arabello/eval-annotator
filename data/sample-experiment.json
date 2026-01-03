@@ -1,0 +1,65 @@
+[
+  {
+    "id": "conv-001",
+    "baseline": [
+      {
+        "role": "user",
+        "content": "What is the capital of France?"
+      },
+      {
+        "role": "assistant",
+        "content": "The capital of France is Paris."
+      },
+      {
+        "role": "user",
+        "content": "What is its population?"
+      },
+      {
+        "role": "assistant",
+        "content": "Paris has a population of approximately 2.2 million people in the city proper, and over 12 million in the metropolitan area."
+      }
+    ],
+    "expected_answer": "Paris has a population of approximately 2.2 million people in the city proper, and over 12 million in the metropolitan area.",
+    "candidate_answer": "The population of Paris is about 2.1 million in the city and around 11 million in the greater Paris region."
+  },
+  {
+    "id": "conv-002",
+    "baseline": [
+      {
+        "role": "user",
+        "content": "Tell me about Python programming language"
+      },
+      {
+        "role": "assistant",
+        "content": "Python is a high-level, interpreted programming language known for its simplicity and readability. It was created by Guido van Rossum and first released in 1991."
+      },
+      {
+        "role": "user",
+        "content": "What are its main use cases?"
+      },
+      {
+        "role": "assistant",
+        "content": "Python is widely used for web development, data analysis, machine learning, artificial intelligence, scientific computing, automation, and scripting."
+      }
+    ],
+    "expected_answer": "Python is widely used for web development, data analysis, machine learning, artificial intelligence, scientific computing, automation, and scripting.",
+    "candidate_answer": "Python is commonly used in web development, data science, AI/ML, automation, and scientific research."
+  },
+  {
+    "id": "conv-003",
+    "baseline": [
+      {
+        "role": "user",
+        "content": "How do I make chocolate chip cookies?"
+      },
+      {
+        "role": "assistant",
+        "content": "To make chocolate chip cookies, you'll need flour, butter, sugar, eggs, vanilla extract, baking soda, salt, and chocolate chips. Mix the wet ingredients, combine with dry ingredients, fold in chocolate chips, and bake at 375°F for 10-12 minutes."
+      }
+    ],
+    "expected_answer": "To make chocolate chip cookies, you'll need flour, butter, sugar, eggs, vanilla extract, baking soda, salt, and chocolate chips. Mix the wet ingredients, combine with dry ingredients, fold in chocolate chips, and bake at 375°F for 10-12 minutes.",
+    "candidate_answer": "Mix butter, sugar, eggs, and vanilla. Add flour, baking soda, and salt. Stir in chocolate chips. Bake at 350°F for 12 minutes.",
+    "annotation": "pass",
+    "notes": "Good concise answer"
+  }
+]
