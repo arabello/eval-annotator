@@ -12,6 +12,7 @@ import {
 import { navigationMenuTriggerStyle } from "./ui/navigation-menu";
 
 interface TopBarProps {
+  experimentName: string;
   datasetLength: number;
   annotatedCount: number;
   onImportClick: () => void;
@@ -20,6 +21,7 @@ interface TopBarProps {
 }
 
 export function TopBar({
+  experimentName,
   datasetLength,
   annotatedCount,
   onImportClick,
@@ -59,6 +61,11 @@ export function TopBar({
             <Download />
             Export
           </Button>
+        </div>
+
+        {/* Center: Experiment title */}
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium">{experimentName}</span>
         </div>
 
         {/* Right: Progress + Info */}
