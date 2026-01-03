@@ -4,6 +4,7 @@ import path from "path";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
+  base: "/eval-annotator/",
   plugins: [react(), tailwindcss()],
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
