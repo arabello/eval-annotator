@@ -1,20 +1,28 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import JsonView from "@uiw/react-json-view";
+import { useCallback, useEffect, useRef, useState } from "react";
+import sampleExperiment from "../data/sample-experiment.json";
 import {
-  TopBar,
-  ConversationView,
-  MetaInfo,
-  Notes,
   Controls,
+  ConversationView,
   DropOverlay,
-  type Dataset,
+  TopBar,
+  ErrorDialog,
 } from "./components";
+import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
+import { Textarea } from "./components/ui/textarea";
+import { Experiment } from "./model/experiment";
+import { safeParse } from "valibot";
 
 const STORAGE_KEY = "evaluation_harness_data";
 
 export default function App() {
-  const [dataset, setDataset] = useState<Dataset>([]);
+  const [experiment, setExperiment] = useState<Experiment | undefined>(
+    sampleExperiment as Experiment,
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dragCounter = useRef(0);
   // Load data from local storage on mount
@@ -23,7 +31,7 @@ export default function App() {
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        setDataset(parsed);
+        setExperiment(parsed);
       } catch (e) {
         console.error("Failed to load data from local storage", e);
       }
@@ -32,24 +40,40 @@ export default function App() {
 
   // Save data to local storage whenever dataset changes
   useEffect(() => {
-    if (dataset.length > 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(dataset));
+    if (experiment && experiment.entries.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(experiment));
     }
-  }, [dataset]);
+  }, [experiment]);
 
-  const currentEntry = dataset[currentIndex] || null;
+  const currentEntry = experiment?.entries[currentIndex] || null;
 
-  const annotatedCount = dataset.filter((e) => e.annotation).length;
+  const annotatedCount =
+    experiment?.entries.filter((e) => e.annotation).length || 0;
 
   const processFile = (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
         const json = JSON.parse(e.target?.result as string);
-        setDataset(Array.isArray(json) ? json : []);
+
+        // Validate with validbot
+        const result = safeParse(Experiment, json);
+
+        if (!result.success) {
+          const errors = result.issues.map((issue) => {
+            const path = issue.path?.map((p) => p.key).join(".") || "";
+            return `${path ? path + ": " : ""}${issue.message}`;
+          });
+          setValidationErrors(errors);
+          return;
+        }
+
+        setExperiment(result.output);
         setCurrentIndex(0);
       } catch (error) {
-        alert("Failed to parse JSON file");
+        setValidationErrors([
+          "Failed to parse JSON file. Please ensure it is valid JSON.",
+        ]);
       }
     };
     reader.readAsText(file);
@@ -90,7 +114,7 @@ export default function App() {
   };
 
   const handleExport = () => {
-    const dataStr = JSON.stringify(dataset, null, 2);
+    const dataStr = JSON.stringify(experiment, null, 2);
     const dataBlob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(dataBlob);
     const link = document.createElement("a");
@@ -107,18 +131,21 @@ export default function App() {
   }, [currentIndex]);
 
   const navigateNext = useCallback(() => {
-    if (currentIndex < dataset.length - 1) {
+    if (experiment && currentIndex < experiment.entries.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
-  }, [currentIndex, dataset.length]);
+  }, [currentIndex, experiment?.entries.length]);
 
   const setAnnotation = useCallback(
     (annotation: "pass" | "fail") => {
-      setDataset((prev) => {
-        const updated = [...prev];
-        const currentAnnotation = updated[currentIndex].annotation;
-        updated[currentIndex] = {
-          ...updated[currentIndex],
+      setExperiment((prev) => {
+        if (!prev) return prev;
+        const updated = {
+          ...prev,
+        };
+        const currentAnnotation = updated.entries[currentIndex].annotation;
+        updated.entries[currentIndex] = {
+          ...updated.entries[currentIndex],
           annotation: currentAnnotation === annotation ? undefined : annotation,
         };
         return updated;
@@ -129,9 +156,15 @@ export default function App() {
 
   const updateNotes = useCallback(
     (notes: string) => {
-      setDataset((prev) => {
-        const updated = [...prev];
-        updated[currentIndex] = { ...updated[currentIndex], notes };
+      setExperiment((prev) => {
+        if (!prev) return prev;
+        const updated = {
+          ...prev,
+        };
+        updated.entries[currentIndex] = {
+          ...updated.entries[currentIndex],
+          notes,
+        };
         return updated;
       });
     },
@@ -143,7 +176,7 @@ export default function App() {
       confirm("Are you sure you want to clear all data? This cannot be undone.")
     ) {
       localStorage.removeItem(STORAGE_KEY);
-      setDataset([]);
+      setExperiment(undefined);
       setCurrentIndex(0);
     }
   };
@@ -152,7 +185,7 @@ export default function App() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLTextAreaElement) return;
-      if (dataset.length === 0) return; // Don't handle keys when no dataset
+      if (!experiment || experiment.entries.length === 0) return; // Don't handle keys when no dataset
 
       switch (e.key) {
         case "ArrowLeft":
@@ -176,26 +209,38 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [navigatePrevious, navigateNext, setAnnotation]);
 
-  const hasData = dataset.length > 0;
+  const hasData = experiment ? experiment.entries.length > 0 : false;
+
+  const handleCloseErrorDialog = () => {
+    setValidationErrors([]);
+  };
 
   return (
     <div
-      className="h-screen w-full flex flex-col bg-gray-50 relative"
+      className="min-h-screen flex flex-col"
       onDragEnter={handleDragEnter}
-      onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
+      <ErrorDialog
+        open={validationErrors.length > 0}
+        onClose={handleCloseErrorDialog}
+        title="Validation Error"
+        errors={validationErrors}
+      />
+
       <input
-        ref={fileInputRef}
         type="file"
         accept=".json"
-        onChange={handleImport}
+        ref={fileInputRef}
         className="hidden"
+        onChange={handleImport}
       />
 
       <TopBar
-        datasetLength={dataset.length}
+        experimentName={experiment?.name || "No Dataset"}
+        datasetLength={experiment?.entries.length || 0}
         annotatedCount={annotatedCount}
         onImportClick={() => fileInputRef.current?.click()}
         onExport={handleExport}
@@ -214,14 +259,36 @@ export default function App() {
 
         {/* Right: Sidebar */}
         <div className="flex-1 flex flex-col gap-4">
-          <MetaInfo currentEntry={currentEntry} />
+          <Card className="h-full">
+            <Tabs defaultValue="Context" className="flex-1">
+              <CardHeader>
+                <CardTitle>
+                  <TabsList>
+                    <TabsTrigger value="Context">Context</TabsTrigger>
+                    <TabsTrigger value="Notes">Notes</TabsTrigger>
+                  </TabsList>
+                </CardTitle>
+              </CardHeader>
 
-          <Notes
-            value={currentEntry?.notes || ""}
-            onChange={updateNotes}
-            disabled={!hasData}
-            className="flex-1"
-          />
+              <CardContent className="h-full">
+                <TabsContent value="Context" className="h-full">
+                  {currentEntry?.context && (
+                    <JsonView value={currentEntry.context} />
+                  )}
+                </TabsContent>
+                <TabsContent value="Notes" className="h-full">
+                  <Textarea
+                    id="notes"
+                    value={currentEntry?.notes || ""}
+                    onChange={(e) => updateNotes(e.target.value)}
+                    disabled={!hasData}
+                    placeholder="Add optional notes here..."
+                    className="h-full resize-none"
+                  />
+                </TabsContent>
+              </CardContent>
+            </Tabs>
+          </Card>
 
           <Controls
             annotation={currentEntry?.annotation}
@@ -229,7 +296,7 @@ export default function App() {
             onPrevious={navigatePrevious}
             onNext={navigateNext}
             canGoPrevious={currentIndex > 0}
-            canGoNext={currentIndex < dataset.length - 1}
+            canGoNext={currentIndex < (experiment?.entries.length || 0) - 1}
             disabled={!hasData}
           />
         </div>
