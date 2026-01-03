@@ -34,6 +34,7 @@ export default function App() {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dragCounter = useRef(0);
+  const conversationRef = useRef<HTMLDivElement>(null);
 
   // Load data from local storage on mount
   useEffect(() => {
@@ -166,6 +167,13 @@ export default function App() {
     }
   };
 
+  // Scroll to bottom when conversation changes
+  useEffect(() => {
+    if (conversationRef.current) {
+      conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
+    }
+  }, [currentIndex, dataset]);
+
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -275,7 +283,7 @@ export default function App() {
       <div className="flex-1 overflow-hidden flex gap-4 p-4">
         {/* Left: Bubble View (65%) */}
         <div className="flex-2 bg-white border rounded-lg overflow-hidden">
-          <div className="h-full overflow-auto p-4">
+          <div ref={conversationRef} className="h-full overflow-auto p-4">
             {dataset.length === 0 ? (
               <p className="text-gray-400 italic">No data loaded</p>
             ) : (
@@ -308,9 +316,9 @@ export default function App() {
                 })}
                 {/* Last Message Split View */}
                 {currentEntry?.baseline && currentEntry.baseline.length > 0 && (
-                  <div className="flex flex-col gap-3 max-w-[50%]">
+                  <div className="flex flex-row gap-3 pb-64">
                     {/* Baseline Last Message */}
-                    <div className="rounded-lg p-3 bg-gray-100">
+                    <div className="flex-1 rounded-lg p-3 bg-gray-100">
                       <div className="text-xs font-semibold mb-2 text-gray-700">
                         Baseline
                       </div>
@@ -323,7 +331,7 @@ export default function App() {
                       </p>
                     </div>
                     {/* Candidate Last Message */}
-                    <div className="rounded-lg p-3 bg-purple-100">
+                    <div className="flex-1 rounded-lg p-3 bg-purple-100">
                       <div className="text-xs font-semibold mb-2 text-gray-700">
                         Candidate
                       </div>
