@@ -220,6 +220,7 @@ export default function App() {
             value={currentEntry?.notes || ""}
             onChange={updateNotes}
             disabled={!hasData}
+            className="flex-1"
           />
 
           <Controls
