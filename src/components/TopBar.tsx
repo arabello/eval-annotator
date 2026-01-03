@@ -1,4 +1,6 @@
-import { Upload, Download, Trash2 } from "lucide-react";
+import { Download, InfoIcon, Trash2, Upload } from "lucide-react";
+import { useState } from "react";
+import { InfoContent } from "./InfoContent";
 
 interface TopBarProps {
   datasetLength: number;
@@ -15,6 +17,7 @@ export function TopBar({
   onExport,
   onClear,
 }: TopBarProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const hasData = datasetLength > 0;
   const progressPercent = hasData ? (annotatedCount / datasetLength) * 100 : 0;
 
@@ -60,7 +63,7 @@ export function TopBar({
           </div>
         </div>
 
-        {/* Right: Progress */}
+        {/* Right: Progress + Info */}
         <div className="flex items-center gap-3">
           <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
             <div
@@ -71,6 +74,12 @@ export function TopBar({
           <span className="text-sm text-gray-600 min-w-[3rem]">
             {hasData ? `${annotatedCount}/${datasetLength}` : "0/0"}
           </span>
+
+          <InfoIcon
+            className="w-5 h-5 cursor-pointer"
+            onClick={() => setIsOpen(true)}
+          />
+          {isOpen && <InfoContent onClose={() => setIsOpen(false)} />}
         </div>
       </div>
     </div>
