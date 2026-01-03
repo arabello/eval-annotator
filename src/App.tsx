@@ -2,10 +2,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import JsonView from "@uiw/react-json-view";
 import { useCallback, useEffect, useRef, useState } from "react";
 import sampleExperiment from "../data/sample-experiment.json";
-import { Controls, ConversationView, DropOverlay, TopBar } from "./components";
+import {
+  Controls,
+  ConversationView,
+  DropOverlay,
+  TopBar,
+  ErrorDialog,
+} from "./components";
 import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
 import { Textarea } from "./components/ui/textarea";
 import { Experiment } from "./model/experiment";
+import { safeParse } from "valibot";
 
 const STORAGE_KEY = "evaluation_harness_data";
 
@@ -15,6 +22,7 @@ export default function App() {
   );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dragCounter = useRef(0);
   // Load data from local storage on mount
@@ -47,13 +55,25 @@ export default function App() {
     reader.onload = (e) => {
       try {
         const json = JSON.parse(e.target?.result as string);
-        setExperiment({
-          name: json.name,
-          entries: Array.isArray(json.entries) ? json.entries : [],
-        });
+
+        // Validate with validbot
+        const result = safeParse(Experiment, json);
+
+        if (!result.success) {
+          const errors = result.issues.map((issue) => {
+            const path = issue.path?.map((p) => p.key).join(".") || "";
+            return `${path ? path + ": " : ""}${issue.message}`;
+          });
+          setValidationErrors(errors);
+          return;
+        }
+
+        setExperiment(result.output);
         setCurrentIndex(0);
       } catch (error) {
-        alert("Failed to parse JSON file");
+        setValidationErrors([
+          "Failed to parse JSON file. Please ensure it is valid JSON.",
+        ]);
       }
     };
     reader.readAsText(file);
@@ -191,24 +211,35 @@ export default function App() {
 
   const hasData = experiment ? experiment.entries.length > 0 : false;
 
+  const handleCloseErrorDialog = () => {
+    setValidationErrors([]);
+  };
+
   return (
     <div
-      className="h-screen w-full flex flex-col bg-gray-50 relative"
+      className="min-h-screen flex flex-col"
       onDragEnter={handleDragEnter}
-      onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
+      <ErrorDialog
+        open={validationErrors.length > 0}
+        onClose={handleCloseErrorDialog}
+        title="Validation Error"
+        errors={validationErrors}
+      />
+
       <input
-        ref={fileInputRef}
         type="file"
         accept=".json"
-        onChange={handleImport}
+        ref={fileInputRef}
         className="hidden"
+        onChange={handleImport}
       />
 
       <TopBar
-        experimentName={experiment?.name || ""}
+        experimentName={experiment?.name || "No Dataset"}
         datasetLength={experiment?.entries.length || 0}
         annotatedCount={annotatedCount}
         onImportClick={() => fileInputRef.current?.click()}
