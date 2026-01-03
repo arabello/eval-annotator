@@ -1,6 +1,6 @@
 import { Download, InfoIcon, Trash2, Upload } from "lucide-react";
 import { useState } from "react";
-import { InfoDialog } from "./InfoContent";
+import { InfoDialog } from "./InfoDialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 
