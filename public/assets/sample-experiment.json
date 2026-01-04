@@ -21,7 +21,6 @@
           "content": "Paris has a population of approximately 2.2 million people in the city proper, and over 12 million in the metropolitan area."
         }
       ],
-      "expected_answer": "Paris has a population of approximately 2.2 million people in the city proper, and over 12 million in the metropolitan area.",
       "candidate_answer": "The population of Paris is about 2.1 million in the city and around 11 million in the greater Paris region.",
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
@@ -52,7 +51,6 @@
           "content": "Python is widely used for web development, data analysis, machine learning, artificial intelligence, scientific computing, automation, and scripting."
         }
       ],
-      "expected_answer": "Python is widely used for web development, data analysis, machine learning, artificial intelligence, scientific computing, automation, and scripting.",
       "candidate_answer": "Python is commonly used in web development, data science, AI/ML, automation, and scientific research.",
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
@@ -75,7 +73,6 @@
           "content": "To make chocolate chip cookies, you'll need flour, butter, sugar, eggs, vanilla extract, baking soda, salt, and chocolate chips. Mix the wet ingredients, combine with dry ingredients, fold in chocolate chips, and bake at 375°F for 10-12 minutes."
         }
       ],
-      "expected_answer": "To make chocolate chip cookies, you'll need flour, butter, sugar, eggs, vanilla extract, baking soda, salt, and chocolate chips. Mix the wet ingredients, combine with dry ingredients, fold in chocolate chips, and bake at 375°F for 10-12 minutes.",
       "candidate_answer": "Mix butter, sugar, eggs, and vanilla. Add flour, baking soda, and salt. Stir in chocolate chips. Bake at 350°F for 12 minutes.",
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
@@ -114,7 +111,6 @@
           "content": "Sure! In React: `function Hello() { return <h1>Hello World</h1>; }`. In Vue: `<template><h1>Hello World</h1></template><script>export default { name: 'Hello' }</script>`."
         }
       ],
-      "expected_answer": "Sure! In React: `function Hello() { return <h1>Hello World</h1>; }`. In Vue: `<template><h1>Hello World</h1></template><script>export default { name: 'Hello' }</script>`.",
       "candidate_answer": "React example: `const Hello = () => <h1>Hello World</h1>;`. Vue example: `<template><h1>Hello World</h1></template>`.",
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
@@ -137,7 +133,6 @@
           "content": "Photosynthesis is the process by which plants convert light energy into chemical energy. It occurs in chloroplasts and involves two main stages: the light-dependent reactions and the Calvin cycle."
         }
       ],
-      "expected_answer": "Photosynthesis is the process by which plants convert light energy into chemical energy. It occurs in chloroplasts and involves two main stages: the light-dependent reactions and the Calvin cycle.",
       "candidate_answer": "Plants use sunlight to make food through photosynthesis, converting CO2 and water into glucose and oxygen.",
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
@@ -200,7 +195,6 @@
           "content": "Most experts predict that practical, large-scale quantum computers are still 10-20 years away. Current systems are considered NISQ (Noisy Intermediate-Scale Quantum) devices and are primarily used for research."
         }
       ],
-      "expected_answer": "Most experts predict that practical, large-scale quantum computers are still 10-20 years away. Current systems are considered NISQ (Noisy Intermediate-Scale Quantum) devices and are primarily used for research.",
       "candidate_answer": "Quantum computers will likely become more common in the next 10-15 years as technology improves and error rates decrease.",
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
@@ -255,7 +249,6 @@
           "content": "A famous example is AlphaGo, which learned to play Go by playing millions of games against itself, receiving rewards for winning moves and penalties for losing ones, eventually mastering the game at superhuman levels."
         }
       ],
-      "expected_answer": "A famous example is AlphaGo, which learned to play Go by playing millions of games against itself, receiving rewards for winning moves and penalties for losing ones, eventually mastering the game at superhuman levels.",
       "candidate_answer": "Reinforcement learning examples include game-playing AIs like AlphaGo and robotic control systems that learn through trial and error.",
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
@@ -278,7 +271,6 @@
           "content": "Climate change is primarily caused by increased greenhouse gas emissions from human activities, particularly burning fossil fuels, deforestation, and industrial processes. These gases trap heat in the atmosphere."
         }
       ],
-      "expected_answer": "Climate change is primarily caused by increased greenhouse gas emissions from human activities, particularly burning fossil fuels, deforestation, and industrial processes. These gases trap heat in the atmosphere.",
       "candidate_answer": "Human activities like burning coal, oil, and gas release CO2 and other greenhouse gases that warm the planet.",
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
@@ -309,7 +301,6 @@
           "content": "\"Horse with No Name\" by America is excellent for beginners. It only uses two chords (Em and D6/9) and has a simple strumming pattern. Other good options are \"Knocking on Heaven's Door\" or \"Wonderwall\"."
         }
       ],
-      "expected_answer": "\"Horse with No Name\" by America is excellent for beginners. It only uses two chords (Em and D6/9) and has a simple strumming pattern. Other good options are \"Knocking on Heaven's Door\" or \"Wonderwall\".",
       "candidate_answer": "Try \"Wonderwall\" by Oasis or \"House of the Rising Sun\" - both use basic chords and are beginner-friendly.",
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
@@ -380,7 +371,6 @@
           "content": "Oracle reliability varies. Centralized oracles create a single point of failure, while decentralized oracle networks like Chainlink use multiple data sources and consensus mechanisms to improve reliability and reduce manipulation risk."
         }
       ],
-      "expected_answer": "Oracle reliability varies. Centralized oracles create a single point of failure, while decentralized oracle networks like Chainlink use multiple data sources and consensus mechanisms to improve reliability and reduce manipulation risk.",
       "candidate_answer": "Oracles can be trusted if they're decentralized and use multiple data sources. Services like Chainlink aggregate data from various sources to ensure accuracy.",
       "context": {}
     }

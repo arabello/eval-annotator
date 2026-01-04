@@ -27,7 +27,7 @@ export type Context = InferOutput<typeof Context>;
 export const ExperimentEntry = object({
   id: string(),
   baseline: array(Message),
-  candidate_answer: optional(string()),
+  candidate_answer: string(),
   notes: optional(string()),
   annotation: optional(Annotation),
   context: optional(Context),
