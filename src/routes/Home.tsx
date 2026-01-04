@@ -217,7 +217,7 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen flex flex-col"
+      className="h-screen flex flex-col overflow-hidden"
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
@@ -248,8 +248,8 @@ export default function Home() {
       />
 
       {/* Main Content Area - 2:1 Split */}
-      <div className="flex-1 overflow-hidden flex gap-4 p-4">
-        <div className="flex-2 bg-white border rounded-lg overflow-hidden">
+      <div className="flex-1 overflow-hidden flex gap-4 p-4 h-full">
+        <div className="flex-2 bg-white border rounded-lg overflow-hidden grow">
           <ConversationView
             currentEntry={currentEntry}
             hasData={hasData}

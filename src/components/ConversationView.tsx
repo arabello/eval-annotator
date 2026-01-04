@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import type { ExperimentEntry } from "./types";
+import type { ExperimentEntry } from "@/model/experiment";
 import { cn } from "@/lib/utils";
 
 interface ConversationViewProps {
@@ -23,42 +23,47 @@ export function ConversationView({
   }, [currentIndex, currentEntry]);
 
   return (
-    <div ref={conversationRef} className="h-full overflow-auto p-4">
+    <div
+      ref={conversationRef}
+      className="h-full overflow-y-auto p-4 flex flex-col"
+    >
       {!hasData ? (
         <p className="text-muted-foreground italic">
           No experiment loaded - Please upload a JSON file to begin
         </p>
       ) : (
         <div className="flex flex-col gap-8">
-          {(currentEntry?.baseline || []).slice(0, -1).map((msg, idx) => {
-            const isUser = msg.role === "user";
-            return (
-              <div
-                key={idx}
-                className={cn(
-                  "max-w-[50%]",
-                  isUser ? "self-end" : "self-start",
-                )}
-              >
+          {(currentEntry?.baseline || [])
+            .slice(0, -1)
+            .map((msg: any, idx: number) => {
+              const isUser = msg.role === "user";
+              return (
                 <div
-                  className={cn("p-3 rounded-lg", {
-                    "bg-green-100": isUser,
-                    "bg-gray-100": !isUser,
-                  })}
+                  key={idx}
+                  className={cn(
+                    "max-w-[50%]",
+                    isUser ? "self-end" : "self-start",
+                  )}
                 >
-                  <div className="text-xs font-semibold mb-1 text-muted-foreground">
-                    {isUser ? "User" : "Assistant"}
+                  <div
+                    className={cn("p-3 rounded-lg", {
+                      "bg-green-100": isUser,
+                      "bg-gray-100": !isUser,
+                    })}
+                  >
+                    <div className="text-xs font-semibold mb-1 text-muted-foreground">
+                      {isUser ? "User" : "Assistant"}
+                    </div>
+                    <p className="text-sm text-foreground whitespace-pre-wrap">
+                      {msg.content}
+                    </p>
                   </div>
-                  <p className="text-sm text-foreground whitespace-pre-wrap">
-                    {msg.content}
-                  </p>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
           {/* Last Message Split View */}
           {currentEntry?.baseline && currentEntry.baseline.length > 0 && (
-            <div className="flex flex-row gap-3 pb-64">
+            <div className="flex flex-row gap-3 mb-4">
               {/* Baseline Last Message */}
               <div className="flex-1 rounded-lg p-3 bg-gray-100">
                 <div className="text-xs font-semibold mb-2 text-muted-foreground">
