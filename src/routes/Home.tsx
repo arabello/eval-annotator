@@ -1,22 +1,22 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import JsonView from "@uiw/react-json-view";
-import { useCallback, useEffect, useRef, useState } from "react";
-import sampleExperiment from "../data/sample-experiment.json";
+import sampleExperiment from "@/assets/sample-experiment.json";
 import {
   Controls,
   ConversationView,
   DropOverlay,
-  TopBar,
   ErrorDialog,
-} from "./components";
-import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
-import { Textarea } from "./components/ui/textarea";
-import { Experiment } from "./model/experiment";
+  TopBar,
+} from "@/components";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { Experiment } from "@/model/experiment";
+import JsonView from "@uiw/react-json-view";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { safeParse } from "valibot";
 
 const STORAGE_KEY = "evaluation_harness_data";
 
-export default function App() {
+export default function Home() {
   const [experiment, setExperiment] = useState<Experiment | undefined>(
     sampleExperiment as Experiment,
   );

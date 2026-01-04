@@ -1,15 +1,7 @@
-import { Download, InfoIcon, Trash2, Upload } from "lucide-react";
-import { useState } from "react";
-import { DocsDialog } from "./DocsDialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from "@radix-ui/react-navigation-menu";
-import { navigationMenuTriggerStyle } from "./ui/navigation-menu";
+import { Download, InfoIcon, Trash2, Upload } from "lucide-react";
+import { Link } from "react-router";
 
 interface TopBarProps {
   experimentName: string;
@@ -28,7 +20,6 @@ export function TopBar({
   onExport,
   onClear,
 }: TopBarProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const hasData = datasetLength > 0;
   const progressPercent = hasData ? (annotatedCount / datasetLength) * 100 : 0;
 
@@ -75,24 +66,14 @@ export function TopBar({
             {hasData ? `${annotatedCount}/${datasetLength}` : "0/0"}
           </span>
 
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setIsOpen(true)}
-                  >
-                    <InfoIcon className="h-5 w-5" />
-                    Docs
-                  </Button>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-
-          {isOpen && <DocsDialog onClose={() => setIsOpen(false)} />}
+          <Link to="/docs">
+            <Button size="sm" asChild>
+              <div>
+                <InfoIcon />
+                Docs
+              </div>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
