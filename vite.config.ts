@@ -3,8 +3,8 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import tailwindcss from "@tailwindcss/vite";
 
-export default defineConfig(({ mode }) => ({
-  base: mode === "production" ? "/eval-annotator/" : ".",
+export default defineConfig(({ command }) => ({
+  base: command === "serve" ? "/" : "/eval-annotator/",
   plugins: [react(), tailwindcss()],
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],

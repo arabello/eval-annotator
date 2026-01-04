@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <script>
+      // Only use redirect in production (GitHub Pages)
+      // Check if we're on GitHub Pages (no localhost, no custom port)
+      const isGitHubPages =
+        window.location.hostname !== "localhost" && window.location.port === "";
+
+      if (isGitHubPages) {
+        // Single Page Apps for GitHub Pages
+        // MIT License
+        // Modified from https://github.com/rafgraph/spa-github-pages
+        (function () {
+          var pathSegmentsToKeep = 1; // Keep /eval-annotator segment
+          var l = window.location;
+          var segmentCount = l.pathname.split("/").length;
+          l.replace(
+            l.protocol +
+              "//" +
+              l.hostname +
+              (l.port ? ":" + l.port : "") +
+              l.pathname
+                .split("/")
+                .slice(0, 1 + pathSegmentsToKeep)
+                .join("/") +
+              "/?p=/" +
+              l.pathname
+                .slice(1)
+                .split("/")
+                .slice(pathSegmentsToKeep)
+                .join("/")
+                .replace(/&/g, "~and~") +
+              (l.search
+                ? "&q=" + l.search.slice(1).replace(/&/g, "~and~")
+                : "") +
+              l.hash,
+          );
+        })();
+      } else {
+        // In development, redirect to home page
+        window.location.href = "/";
+      }
+    </script>
+  </head>
+  <body>
+    Redirecting to the homepage...
+  </body>
+</html>

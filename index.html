@@ -4,6 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eval Annotator</title>
+    <script type="text/javascript">
+      // Only use SPA redirect in production (GitHub Pages)
+      // Check if we're on GitHub Pages (no localhost, no custom port)
+      const isGitHubPages =
+        window.location.hostname !== "localhost" && window.location.port === "";
+
+      if (isGitHubPages && window.location.search[1] === "/") {
+        // Single Page Apps for GitHub Pages
+        // MIT License
+        // Modified from https://github.com/rafgraph/spa-github-pages
+        var decoded = window.location.search
+          .slice(1)
+          .split("&")
+          .map(function (s) {
+            return s.replace(/~and~/g, "&");
+          })
+          .join("?");
+        window.history.replaceState(
+          null,
+          null,
+          window.location.pathname.slice(0, -1) +
+            decoded +
+            window.location.hash,
+        );
+      }
+    </script>
   </head>
 
   <body>
