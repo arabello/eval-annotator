@@ -56,10 +56,12 @@ export default function Docs() {
           A Ground Truth is a dataset of sampled conversations for the
           conversational AI software you are developing. Each entry contains the
           conversation messages and a baseline answer representing the current
-          stable behavior. An Experiment is an evaluation suite run (current
-          changes) against the entries of the Ground Truth providing the
-          candidate's responses. The Experiment goal is to evaluate if the
-          changes are improving or worsening the software behavior overall.
+          stable behavior. Additionally, entries can include expected and actual
+          tool calls for evaluating function calling capabilities. An Experiment
+          is an evaluation suite run (current changes) against the entries of
+          the Ground Truth providing the candidate's responses. The Experiment
+          goal is to evaluate if the changes are improving or worsening the
+          software behavior overall.
         </p>
         <p>
           Eval Annotator helps you at Experiment evaluation time. It provides a
@@ -78,6 +80,31 @@ export default function Docs() {
           import/export the file and share it with colleagues to get their
           feedbacks.
         </p>
+        {/* Tool Calls */}
+        <h1 className="text-3xl font-semibold">Tool Calls Evaluation</h1>
+        <p>
+          For applications that use function calling, entries can include{" "}
+          <code>expected_tool_calls</code> and <code>actual_tool_calls</code>{" "}
+          fields to evaluate the accuracy of tool usage.
+        </p>
+        <p>
+          <strong>expected_tool_calls</strong>: Array of tool calls that should
+          have been made, each containing:
+        </p>
+        <ul className="list-disc list-inside space-y-1 ml-4">
+          <li>
+            <code>name</code>: String - The name of the tool/function
+          </li>
+          <li>
+            <code>arguments</code>: Object - The arguments that should have been
+            passed to the tool
+          </li>
+        </ul>
+        <p>
+          <strong>actual_tool_calls</strong>: Array of tool calls that were
+          actually made, with the same structure as expected calls.
+        </p>
+
         {/* Experiment JSON */}
         <h1 className="text-3xl font-semibold">Experiment JSON</h1>
         <p>

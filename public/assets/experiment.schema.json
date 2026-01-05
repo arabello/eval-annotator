@@ -18,6 +18,21 @@
     }
   },
   "definitions": {
+    "ToolCall": {
+      "type": "object",
+      "required": ["name", "arguments"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the tool/function being called"
+        },
+        "arguments": {
+          "type": "object",
+          "description": "The arguments passed to the tool call",
+          "additionalProperties": true
+        }
+      }
+    },
     "Message": {
       "type": "object",
       "required": ["role", "content"],
@@ -55,6 +70,20 @@
         "candidate_answer": {
           "type": "string",
           "description": "The candidate answer to evaluate"
+        },
+        "expected_tool_calls": {
+          "type": "array",
+          "description": "Expected tool calls that should be made",
+          "items": {
+            "$ref": "#/definitions/ToolCall"
+          }
+        },
+        "actual_tool_calls": {
+          "type": "array",
+          "description": "Actual tool calls that were made",
+          "items": {
+            "$ref": "#/definitions/ToolCall"
+          }
         },
         "notes": {
           "type": "string",
