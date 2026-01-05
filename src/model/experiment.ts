@@ -12,6 +12,12 @@ import {
 export const Role = picklist(["user", "assistant"]);
 export type Role = InferOutput<typeof Role>;
 
+export const ToolCall = object({
+  name: string(),
+  arguments: record(string(), any()),
+});
+export type ToolCall = InferOutput<typeof ToolCall>;
+
 export const Message = object({
   role: Role,
   content: string(),
@@ -29,6 +35,8 @@ export const ExperimentEntry = object({
   messages: array(Message),
   baseline_answer: string(),
   candidate_answer: string(),
+  expected_tool_calls: optional(array(ToolCall)),
+  actual_tool_calls: optional(array(ToolCall)),
   notes: optional(string()),
   annotation: optional(Annotation),
   context: optional(Context),

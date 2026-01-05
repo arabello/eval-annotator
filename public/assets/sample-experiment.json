@@ -19,6 +19,25 @@
       ],
       "baseline_answer": "Paris has a population of approximately 2.2 million people in the city proper, and over 12 million in the metropolitan area.",
       "candidate_answer": "The population of Paris is about 2.1 million in the city and around 11 million in the greater Paris region.",
+      "expected_tool_calls": [
+        {
+          "name": "get_population_data",
+          "arguments": {
+            "city": "Paris",
+            "country": "France",
+            "include_metropolitan": true
+          }
+        }
+      ],
+      "actual_tool_calls": [
+        {
+          "name": "get_population_data",
+          "arguments": {
+            "city": "Paris",
+            "country": "France"
+          }
+        }
+      ],
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
         "customField": "customValue",
@@ -46,6 +65,25 @@
       ],
       "baseline_answer": "Python is widely used for web development, data analysis, machine learning, artificial intelligence, scientific computing, automation, and scripting.",
       "candidate_answer": "Python is commonly used in web development, data science, AI/ML, automation, and scientific research.",
+      "expected_tool_calls": [
+        {
+          "name": "search_programming_info",
+          "arguments": {
+            "language": "Python",
+            "topic": "use_cases",
+            "limit": 10
+          }
+        }
+      ],
+      "actual_tool_calls": [
+        {
+          "name": "search_programming_info",
+          "arguments": {
+            "language": "Python",
+            "topic": "use_cases"
+          }
+        }
+      ],
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
         "customField": "customValue",
@@ -65,6 +103,25 @@
       ],
       "baseline_answer": "To make chocolate chip cookies, you'll need flour, butter, sugar, eggs, vanilla extract, baking soda, salt, and chocolate chips. Mix the wet ingredients, combine with dry ingredients, fold in chocolate chips, and bake at 375°F for 10-12 minutes.",
       "candidate_answer": "Mix butter, sugar, eggs, and vanilla. Add flour, baking soda, and salt. Stir in chocolate chips. Bake at 350°F for 12 minutes.",
+      "expected_tool_calls": [
+        {
+          "name": "get_recipe",
+          "arguments": {
+            "dish": "chocolate_chip_cookies",
+            "include_instructions": true,
+            "include_ingredients": true
+          }
+        }
+      ],
+      "actual_tool_calls": [
+        {
+          "name": "get_recipe",
+          "arguments": {
+            "dish": "cookies",
+            "type": "chocolate_chip"
+          }
+        }
+      ],
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
         "customField": "customValue",
@@ -100,6 +157,24 @@
       ],
       "baseline_answer": "Sure! In React: `function Hello() { return <h1>Hello World</h1>; }`. In Vue: `<template><h1>Hello World</h1></template><script>export default { name: 'Hello' }</script>`.",
       "candidate_answer": "React example: `const Hello = () => <h1>Hello World</h1>;`. Vue example: `<template><h1>Hello World</h1></template>`.",
+      "expected_tool_calls": [
+        {
+          "name": "compare_frameworks",
+          "arguments": {
+            "frameworks": ["React", "Vue"],
+            "aspects": ["syntax", "learning_curve", "ecosystem"]
+          }
+        }
+      ],
+      "actual_tool_calls": [
+        {
+          "name": "compare_frameworks",
+          "arguments": {
+            "framework1": "React",
+            "framework2": "Vue"
+          }
+        }
+      ],
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
         "customField": "customValue",
@@ -119,6 +194,23 @@
       ],
       "baseline_answer": "Photosynthesis is the process by which plants convert light energy into chemical energy. It occurs in chloroplasts and involves two main stages: the light-dependent reactions and the Calvin cycle.",
       "candidate_answer": "Plants use sunlight to make food through photosynthesis, converting CO2 and water into glucose and oxygen.",
+      "expected_tool_calls": [
+        {
+          "name": "get_scientific_explanation",
+          "arguments": {
+            "topic": "photosynthesis",
+            "detail_level": "comprehensive"
+          }
+        }
+      ],
+      "actual_tool_calls": [
+        {
+          "name": "explain_process",
+          "arguments": {
+            "process": "photosynthesis"
+          }
+        }
+      ],
       "context": {
         "customId": "11111111-1111-1111-1111-111111111111",
         "customField": "customValue",
@@ -127,222 +219,6 @@
         },
         "customArray": [1, 2, 3]
       }
-    },
-    {
-      "id": "conv-006",
-      "messages": [
-        {
-          "role": "user",
-          "content": "Explain quantum computing"
-        },
-        {
-          "role": "assistant",
-          "content": "Quantum computing uses quantum mechanics principles to process information. Unlike classical bits that are either 0 or 1, quantum bits (qubits) can exist in superposition, being both 0 and 1 simultaneously."
-        },
-        {
-          "role": "user",
-          "content": "What are the main advantages?"
-        },
-        {
-          "role": "assistant",
-          "content": "Quantum computers can solve certain problems exponentially faster than classical computers, particularly in cryptography, optimization, drug discovery, and simulating quantum systems."
-        },
-        {
-          "role": "user",
-          "content": "Are they commercially available?"
-        },
-        {
-          "role": "assistant",
-          "content": "Yes, companies like IBM, Google, and D-Wave offer cloud-based access to quantum computers, though they're still in early stages and face challenges like error rates and decoherence."
-        },
-        {
-          "role": "user",
-          "content": "What's decoherence?"
-        },
-        {
-          "role": "assistant",
-          "content": "Decoherence is when qubits lose their quantum properties due to environmental interference, causing them to behave like classical bits. This is one of the main challenges in building stable quantum computers."
-        },
-        {
-          "role": "user",
-          "content": "How are companies addressing this?"
-        },
-        {
-          "role": "assistant",
-          "content": "Companies are using techniques like quantum error correction, operating at near absolute zero temperatures, electromagnetic shielding, and developing topological qubits that are more resistant to decoherence."
-        },
-        {
-          "role": "user",
-          "content": "When will quantum computers be mainstream?"
-        }
-      ],
-      "baseline_answer": "Most experts predict that practical, large-scale quantum computers are still 10-20 years away. Current systems are considered NISQ (Noisy Intermediate-Scale Quantum) devices and are primarily used for research.",
-      "candidate_answer": "Quantum computers will likely become more common in the next 10-15 years as technology improves and error rates decrease.",
-      "context": {
-        "customId": "11111111-1111-1111-1111-111111111111",
-        "customField": "customValue",
-        "customObject": {
-          "foo": "bar"
-        },
-        "customArray": [1, 2, 3]
-      }
-    },
-    {
-      "id": "conv-007",
-      "messages": [
-        {
-          "role": "user",
-          "content": "What is machine learning?"
-        },
-        {
-          "role": "assistant",
-          "content": "Machine learning is a subset of artificial intelligence that enables systems to learn and improve from experience without being explicitly programmed. It uses algorithms to identify patterns in data."
-        },
-        {
-          "role": "user",
-          "content": "What are the main types?"
-        },
-        {
-          "role": "assistant",
-          "content": "The three main types are supervised learning (learning from labeled data), unsupervised learning (finding patterns in unlabeled data), and reinforcement learning (learning through trial and error with rewards)."
-        },
-        {
-          "role": "user",
-          "content": "Give me an example of supervised learning"
-        },
-        {
-          "role": "assistant",
-          "content": "Email spam filtering is a classic example. The algorithm is trained on thousands of emails labeled as 'spam' or 'not spam', learning to identify patterns that distinguish spam from legitimate emails."
-        },
-        {
-          "role": "user",
-          "content": "What about unsupervised learning?"
-        },
-        {
-          "role": "assistant",
-          "content": "Customer segmentation is a good example. An algorithm can analyze customer purchase behavior and group similar customers together without being told what the groups should be, discovering natural clusters in the data."
-        },
-        {
-          "role": "user",
-          "content": "And reinforcement learning?"
-        }
-      ],
-      "baseline_answer": "A famous example is AlphaGo, which learned to play Go by playing millions of games against itself, receiving rewards for winning moves and penalties for losing ones, eventually mastering the game at superhuman levels.",
-      "candidate_answer": "Reinforcement learning examples include game-playing AIs like AlphaGo and robotic control systems that learn through trial and error.",
-      "context": {
-        "customId": "11111111-1111-1111-1111-111111111111",
-        "customField": "customValue",
-        "customObject": {
-          "foo": "bar"
-        },
-        "customArray": [1, 2, 3]
-      }
-    },
-    {
-      "id": "conv-008",
-      "messages": [
-        {
-          "role": "user",
-          "content": "What causes climate change?"
-        }
-      ],
-      "baseline_answer": "Climate change is primarily caused by increased greenhouse gas emissions from human activities, particularly burning fossil fuels, deforestation, and industrial processes. These gases trap heat in the atmosphere.",
-      "candidate_answer": "Human activities like burning coal, oil, and gas release CO2 and other greenhouse gases that warm the planet.",
-      "context": {
-        "customId": "11111111-1111-1111-1111-111111111111",
-        "customField": "customValue",
-        "customObject": {
-          "foo": "bar"
-        },
-        "customArray": [1, 2, 3]
-      }
-    },
-    {
-      "id": "conv-009",
-      "messages": [
-        {
-          "role": "user",
-          "content": "How do I learn guitar as a beginner?"
-        },
-        {
-          "role": "assistant",
-          "content": "Start by learning proper posture and hand position, then practice basic chords like C, G, D, and A minor. Spend 15-20 minutes daily on finger exercises and simple songs."
-        },
-        {
-          "role": "user",
-          "content": "What's a good first song to learn?"
-        }
-      ],
-      "baseline_answer": "\"Horse with No Name\" by America is excellent for beginners. It only uses two chords (Em and D6/9) and has a simple strumming pattern. Other good options are \"Knocking on Heaven's Door\" or \"Wonderwall\".",
-      "candidate_answer": "Try \"Wonderwall\" by Oasis or \"House of the Rising Sun\" - both use basic chords and are beginner-friendly.",
-      "context": {
-        "customId": "11111111-1111-1111-1111-111111111111",
-        "customField": "customValue",
-        "customObject": {
-          "foo": "bar"
-        },
-        "customArray": [1, 2, 3]
-      }
-    },
-    {
-      "id": "conv-010",
-      "messages": [
-        {
-          "role": "user",
-          "content": "What is blockchain technology?"
-        },
-        {
-          "role": "assistant",
-          "content": "Blockchain is a distributed ledger technology that records transactions across multiple computers in a way that makes the data virtually impossible to alter retroactively. Each block contains data and is cryptographically linked to the previous block."
-        },
-        {
-          "role": "user",
-          "content": "How is it used besides cryptocurrency?"
-        },
-        {
-          "role": "assistant",
-          "content": "Blockchain is used in supply chain management for tracking products, healthcare for secure medical records, voting systems, digital identity verification, smart contracts, and real estate transactions."
-        },
-        {
-          "role": "user",
-          "content": "What are smart contracts?"
-        },
-        {
-          "role": "assistant",
-          "content": "Smart contracts are self-executing contracts with terms directly written into code. They automatically execute when predetermined conditions are met, eliminating the need for intermediaries. Ethereum is the most popular platform for smart contracts."
-        },
-        {
-          "role": "user",
-          "content": "Can you give a real-world example?"
-        },
-        {
-          "role": "assistant",
-          "content": "Insurance claims are a great example. A smart contract could automatically pay out a flight delay insurance claim when flight data confirms a delay, without requiring manual claim processing or approval."
-        },
-        {
-          "role": "user",
-          "content": "What are the limitations?"
-        },
-        {
-          "role": "assistant",
-          "content": "Smart contracts face challenges including: inability to access external data without oracles, immutability making bugs hard to fix, high transaction costs on some networks, and regulatory uncertainty in many jurisdictions."
-        },
-        {
-          "role": "user",
-          "content": "What are oracles?"
-        },
-        {
-          "role": "assistant",
-          "content": "Oracles are third-party services that provide smart contracts with external data from the real world. They act as bridges between blockchain and off-chain data sources, like weather data, stock prices, or sports scores."
-        },
-        {
-          "role": "user",
-          "content": "Are oracles trustworthy?"
-        }
-      ],
-      "baseline_answer": "Oracle reliability varies. Centralized oracles create a single point of failure, while decentralized oracle networks like Chainlink use multiple data sources and consensus mechanisms to improve reliability and reduce manipulation risk.",
-      "candidate_answer": "Oracles can be trusted if they're decentralized and use multiple data sources. Services like Chainlink aggregate data from various sources to ensure accuracy.",
-      "context": {}
     }
   ]
 }

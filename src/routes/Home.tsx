@@ -31,9 +31,18 @@ export default function Home() {
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        setExperiment(parsed);
+
+        // Validate the loaded data against the schema
+        const result = safeParse(Experiment, parsed);
+        if (result.success) {
+          setExperiment(result.output);
+        } else {
+          console.warn("Invalid data in localStorage, using sample data");
+          localStorage.removeItem(STORAGE_KEY);
+        }
       } catch (e) {
         console.error("Failed to load data from local storage", e);
+        localStorage.removeItem(STORAGE_KEY);
       }
     }
   }, []);
@@ -46,6 +55,11 @@ export default function Home() {
   }, [experiment]);
 
   const currentEntry = experiment?.entries[currentIndex] || null;
+
+  // Debug: log current entry to see what data we have
+  console.log("Current entry:", currentEntry);
+  console.log("Expected tool calls:", currentEntry?.expected_tool_calls);
+  console.log("Actual tool calls:", currentEntry?.actual_tool_calls);
 
   const annotatedCount =
     experiment?.entries.filter((e) => e.annotation).length || 0;
@@ -265,16 +279,66 @@ export default function Home() {
                 <CardTitle>
                   <TabsList>
                     <TabsTrigger value="Context">Context</TabsTrigger>
+                    <TabsTrigger value="Tool Calls">Tool Calls</TabsTrigger>
                     <TabsTrigger value="Notes">Notes</TabsTrigger>
                   </TabsList>
                 </CardTitle>
               </CardHeader>
 
               <CardContent className="h-full">
-                <TabsContent value="Context" className="h-full">
-                  {currentEntry?.context && (
-                    <JsonView value={currentEntry.context} />
-                  )}
+                <TabsContent value="Context" className="h-full overflow-hidden">
+                  <div className="h-full overflow-y-auto">
+                    {currentEntry?.context && (
+                      <div className="overflow-auto">
+                        <JsonView value={currentEntry.context} />
+                      </div>
+                    )}
+                    {!currentEntry?.context && (
+                      <p className="text-muted-foreground italic">
+                        No context data available
+                      </p>
+                    )}
+                  </div>
+                </TabsContent>
+                <TabsContent
+                  value="Tool Calls"
+                  className="h-full overflow-hidden"
+                >
+                  <div className="h-full space-y-4 overflow-y-auto">
+                    {currentEntry?.expected_tool_calls ||
+                    currentEntry?.actual_tool_calls ? (
+                      <>
+                        {currentEntry?.expected_tool_calls && (
+                          <div>
+                            <h4 className="text-sm font-semibold mb-2 text-green-700">
+                              Expected Tool Calls
+                            </h4>
+                            <div className="overflow-auto max-h-64">
+                              <JsonView
+                                value={currentEntry.expected_tool_calls}
+                              />
+                            </div>
+                          </div>
+                        )}
+                        {currentEntry?.actual_tool_calls && (
+                          <div>
+                            <h4 className="text-sm font-semibold mb-2 text-blue-700">
+                              Actual Tool Calls
+                            </h4>
+                            <div className="overflow-auto max-h-64">
+                              <JsonView
+                                value={currentEntry.actual_tool_calls}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <p className="text-muted-foreground italic">
+                        No tool calls data available
+                      </p>
+                    )}
+                  </div>
                 </TabsContent>
                 <TabsContent value="Notes" className="h-full">
                   <Textarea
