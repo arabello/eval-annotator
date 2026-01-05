@@ -33,50 +33,45 @@ export function ConversationView({
         </p>
       ) : (
         <div className="flex flex-col gap-8">
-          {(currentEntry?.baseline || [])
-            .slice(0, -1)
-            .map((msg: any, idx: number) => {
-              const isUser = msg.role === "user";
-              return (
+          {(currentEntry?.messages || []).map((msg: any, idx: number) => {
+            const isUser = msg.role === "user";
+            return (
+              <div
+                key={idx}
+                className={cn(
+                  "max-w-[50%]",
+                  isUser ? "self-end" : "self-start",
+                )}
+              >
                 <div
-                  key={idx}
-                  className={cn(
-                    "max-w-[50%]",
-                    isUser ? "self-end" : "self-start",
-                  )}
+                  className={cn("p-3 rounded-lg", {
+                    "bg-green-100": isUser,
+                    "bg-gray-100": !isUser,
+                  })}
                 >
-                  <div
-                    className={cn("p-3 rounded-lg", {
-                      "bg-green-100": isUser,
-                      "bg-gray-100": !isUser,
-                    })}
-                  >
-                    <div className="text-xs font-semibold mb-1 text-muted-foreground">
-                      {isUser ? "User" : "Assistant"}
-                    </div>
-                    <p className="text-sm text-foreground whitespace-pre-wrap">
-                      {msg.content}
-                    </p>
+                  <div className="text-xs font-semibold mb-1 text-muted-foreground">
+                    {isUser ? "User" : "Assistant"}
                   </div>
+                  <p className="text-sm text-foreground whitespace-pre-wrap">
+                    {msg.content}
+                  </p>
                 </div>
-              );
-            })}
-          {/* Last Message Split View */}
-          {currentEntry?.baseline && currentEntry.baseline.length > 0 && (
+              </div>
+            );
+          })}
+          {/* Baseline vs Candidate Answer Comparison */}
+          {currentEntry?.baseline_answer && (
             <div className="flex flex-row gap-3 mb-4">
-              {/* Baseline Last Message */}
+              {/* Baseline Answer */}
               <div className="flex-1 rounded-lg p-3 bg-gray-100">
                 <div className="text-xs font-semibold mb-2 text-muted-foreground">
                   Baseline
                 </div>
                 <p className="text-sm text-foreground whitespace-pre-wrap">
-                  {
-                    currentEntry.baseline[currentEntry.baseline.length - 1]
-                      .content
-                  }
+                  {currentEntry.baseline_answer}
                 </p>
               </div>
-              {/* Candidate Last Message */}
+              {/* Candidate Answer */}
               <div className="flex-1 rounded-lg p-3 bg-purple-100">
                 <div className="text-xs font-semibold mb-2 text-muted-foreground">
                   Candidate
