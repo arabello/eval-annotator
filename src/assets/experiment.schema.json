@@ -35,18 +35,22 @@
     },
     "ExperimentEntry": {
       "type": "object",
-      "required": ["id", "baseline", "candidate_answer"],
+      "required": ["id", "messages", "baseline_answer", "candidate_answer"],
       "properties": {
         "id": {
           "type": "string",
           "description": "Unique identifier for the entry"
         },
-        "baseline": {
+        "messages": {
           "type": "array",
-          "description": "List of messages in the conversation baseline",
+          "description": "List of messages in the conversation (excluding the last assistant message which is stored in baseline_answer)",
           "items": {
             "$ref": "#/definitions/Message"
           }
+        },
+        "baseline_answer": {
+          "type": "string",
+          "description": "The last assistant message content from the baseline conversation"
         },
         "candidate_answer": {
           "type": "string",

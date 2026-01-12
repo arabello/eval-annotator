@@ -54,12 +54,12 @@ export default function Docs() {
         <h1 className="text-3xl font-semibold">Workflow</h1>
         <p>
           A Ground Truth is a dataset of sampled conversations for the
-          conversational AI software you are developing. The baseline is the
-          current stable behavior of the software. An Experiment is an
-          evaluation suite run (current changes) against the entries of the
-          Ground Truth providing the candidate's responses. The Experiment goal
-          is to evaluate if the changes are improving or worsening the software
-          behavior overall.
+          conversational AI software you are developing. Each entry contains the
+          conversation messages and a baseline answer representing the current
+          stable behavior. An Experiment is an evaluation suite run (current
+          changes) against the entries of the Ground Truth providing the
+          candidate's responses. The Experiment goal is to evaluate if the
+          changes are improving or worsening the software behavior overall.
         </p>
         <p>
           Eval Annotator helps you at Experiment evaluation time. It provides a
